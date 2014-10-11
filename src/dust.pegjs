@@ -15,7 +15,23 @@ body
    part is defined as anything that matches with raw or comment or section or partial or special or reference or buffer
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 part
-  = raw / comment / section / partial / special / reference / buffer
+  = raw / comment / raw_section / section / partial / special / reference / buffer
+
+
+/*-------------------------------------------------------------------------------------------------------------------------------------
+   Raw section is the helper body of {@hl} or {@highlight}
+---------------------------------------------------------------------------------------------------------------------------------------*/
+raw_section "raw_section"
+  = t:raw_start ws* rd b:(all:rawbuffer {return all})* d:body e:bodies n:end_tag? &{
+    return true
+  }
+  {
+    if (t[1].text === "hl") {
+        e.push(["param", ["literal", "block"], ['body', ['buffer', b.join(''), [['line', line()], ['col', column()]]]]]);
+        t.push(e);
+        return t.concat([['line', line()], ['col', column()]]);
+    }
+  }
 
 /*-------------------------------------------------------------------------------------------------------------------------------------
    section is defined as matching with with sec_tag_start followed by 0 or more white spaces plus a closing brace plus body
@@ -45,6 +61,20 @@ section "section"
 sec_tag_start
   = ld t:[#?^<+@%] ws* n:identifier c:context p:params
   { return [t, n, c, p] }
+
+raw_start
+    = ld t:[@] ws* name:(hl_small / hl_large) c:context p:params
+    {
+        var namearr = ['key', name];
+        namearr.text = name;
+        return [t, namearr, c, p]
+    }
+
+hl_small
+  = "hl"
+
+hl_large
+    = "highlight"
 
 /*-------------------------------------------------------------------------------------------------------------------------------------
    end_tag is defined as matching an opening brace followed by a slash plus 0 or more white spaces plus identifier followed
@@ -172,9 +202,15 @@ inline_part
 
 buffer "buffer"
   = e:eol w:ws*
-  { return ["format", e, w.join('')].concat([['line', line()], ['col', column()]]) }
+  { return ["buffer", e + w.join('')].concat([['line', line()], ['col', column()]]) }
   / b:(!tag !raw !comment !eol c:. {return c})+
   { return ["buffer", b.join('')].concat([['line', line()], ['col', column()]]) }
+
+rawbuffer "rawbuffer"
+    = e:eol w:ws*
+    { return e + w.join('') }
+    / b:(!end_tag !raw_start c:. {return c})+
+    { return  b.join('') }
 
 /*-------------------------------------------------------------------------------------------------------------------------------------
    literal is defined as matching esc or any character except the double quotes and it cannot be a tag
@@ -185,6 +221,9 @@ literal "literal"
 
 esc
   = '\\"' { return '"' }
+
+rawcontent
+  = c:(char:. {return char})* {return c}
 
 raw "raw"
   = "{`" rawText:(!"`}" char:. {return char})* "`}"
