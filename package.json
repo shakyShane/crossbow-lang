@@ -1,35 +1,12 @@
 {
-  "name": "dustjs-linkedin",
-  "title": "Dust - Asynchronous Templating",
-  "version": "2.4.2",
+  "name": "crossbow-lang",
+  "title": "Template system for Crossbow.js",
+  "version": "1.0.0",
   "author": {
-    "name": "Aleksander Williams",
-    "url": "http://akdubya.github.com/dustjs"
+    "name": "Shane Osbourne",
+    "url": "https://github.com/shakyShane/crossbow-lang"
   },
-  "homepage": "http://linkedin.github.io/dustjs/",
-  "description": "Asynchronous templates for the browser and node.js ( LinkedIn fork )",
-  "contributors": [
-    {
-      "name": "Jairo de Morais",
-      "email": "jdemorais@linkedin.com"
-    },
-    {
-      "name": "Veena Basavaraj",
-      "email": "vbasavaraj@linkedin.com"
-    },
-    {
-      "name": "Jimmy Chan",
-      "email": "jchan@linkedin.com"
-    },
-    {
-      "name": "Richard Ragan",
-      "email": "rragan@ebay.com"
-    },
-    {
-      "name": "Steven Foote",
-      "email": "sfoote@linkedin.com"
-    }
-  ],
+  "description": "Shane Osbourne's fork of Linkedin's fork of Dustjs",
   "scripts": {
     "test": "grunt test"
   },

@@ -9,3 +9,5 @@ src
 tmp
 test
 archive
+.idea
+bower_components
