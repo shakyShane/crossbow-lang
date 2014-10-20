@@ -1807,60 +1807,60 @@ var coreTests = [
 /**
  * INVALID HELPER TESTS
  */
-  {
-    name: "debugger tests",
-    tests: [
-      {
-        name:     "non-existing helper",
-        source:   "some text {@notfound}foo{/notfound} some text",
-        context:  {},
-        log: "Invalid helper [notfound]",
-        message: "Should crash the application if a helper is not found"
-      },
-      {
-        name:     "invalid filter",
-        source:   "{obj|nullcheck|invalid}",
-        context:  { obj: "test" },
-        log:    "Invalid filter [nullcheck]",
-        message: "should fail hard for invalid filter"
-      },
-      {
-        name: "Reference not found",
-        source:"{wrongTest}",
-        context: {"test": "example text"},
-        log: "Cannot find the value for reference [{wrongTest}] in template [Reference not found]",
-        message: "test the log messages for a reference not found."
-      },
-      {
-        name: "Unhandled section tag",
-        source:"{#strangeSection}{/strangeSection}",
-        context: {"test": "example text"},
-        log: "Not rendering section (#) block in template [Unhandled section tag], because above key was not found",
-        message: "test the log messages for an unhandled section."
-      },
-      {
-        name: "No render for exists",
-        source:"{?doesNotExist}{/doesNotExist}",
-        context: {},
-        log: "Not rendering exists (?) block in template [No render for exists], because above key was not found",
-        message: "test the log messages for a non existing exists check."
-      },
-      {
-        name: "No render for not exists",
-        source:"{^exists}{/exists}",
-        context: {"exists": "example text"},
-        log: "Not rendering not exists (^) block check in template [No render for not exists], because above key was found",
-        message: "test the log messages for an existing not exists check."
-      },
-      {
-        name: "Errors should be throwable from helpers and consumed in the render callback/stream onerror",
-        source: "{@error errorMessage=\"helper error\"}{/error}",
-        context: { },
-        error: "helper error",
-        message: "test to make sure errors are properly caught and propogated to the callbacks."
-      }
-    ]
-  }
+  //{
+  //  name: "debugger tests",
+  //  tests: [
+  //    {
+  //      name:     "non-existing helper",
+  //      source:   "some text {@notfound}foo{/notfound} some text",
+  //      context:  {},
+  //      log: "Invalid helper [notfound]",
+  //      message: "Should crash the application if a helper is not found"
+  //    },
+  //    {
+  //      name:     "invalid filter",
+  //      source:   "{obj|nullcheck|invalid}",
+  //      context:  { obj: "test" },
+  //      log:    "Invalid filter [nullcheck]",
+  //      message: "should fail hard for invalid filter"
+  //    },
+  //    {
+  //      name: "Reference not found",
+  //      source:"{wrongTest}",
+  //      context: {"test": "example text"},
+  //      log: "Cannot find the value for reference [{wrongTest}] in template [Reference not found]",
+  //      message: "test the log messages for a reference not found."
+  //    },
+  //    {
+  //      name: "Unhandled section tag",
+  //      source:"{#strangeSection}{/strangeSection}",
+  //      context: {"test": "example text"},
+  //      log: "Not rendering section (#) block in template [Unhandled section tag], because above key was not found",
+  //      message: "test the log messages for an unhandled section."
+  //    },
+  //    {
+  //      name: "No render for exists",
+  //      source:"{?doesNotExist}{/doesNotExist}",
+  //      context: {},
+  //      log: "Not rendering exists (?) block in template [No render for exists], because above key was not found",
+  //      message: "test the log messages for a non existing exists check."
+  //    },
+  //    {
+  //      name: "No render for not exists",
+  //      source:"{^exists}{/exists}",
+  //      context: {"exists": "example text"},
+  //      log: "Not rendering not exists (^) block check in template [No render for not exists], because above key was found",
+  //      message: "test the log messages for an existing not exists check."
+  //    },
+  //    {
+  //      name: "Errors should be throwable from helpers and consumed in the render callback/stream onerror",
+  //      source: "{@error errorMessage=\"helper error\"}{/error}",
+  //      context: { },
+  //      error: "helper error",
+  //      message: "test to make sure errors are properly caught and propogated to the callbacks."
+  //    }
+  //  ]
+  //}
 ];
 
 if (typeof module !== "undefined" && typeof require !== "undefined") {

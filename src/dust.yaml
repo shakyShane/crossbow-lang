@@ -39,19 +39,19 @@ raw_section "raw_section"
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 section "section"
   = t:sec_tag_start ws* rd b:body e:bodies n:end_tag? &{
-    if( (!n) || (t[1].text !== n.text) ) {
-      error("Expected end tag for "+t[1].text+" but it was not found.");
+    if( (!n) || (t[1].text !== n[0].text) ) {
+      error("Expected end tag for `"+t[1].text+"` but it was not found.");
     }
     return true;
   }
   {
     e.push(["param", ["literal", "block"], b]);
     t.push(e);
-    return t.concat([['line', line()], ['col', column()]]);
+    return t.concat([['line', line()], ['col', column()], ['after', n[1]]]);
   }
-  / t:sec_tag_start ws* "/" rd {
+  / t:sec_tag_start ws* "/" rd n:after_tag? {
     t.push(["bodies"]);
-    return t.concat([['line', line()], ['col', column()]]);
+    return t.concat([['line', line()], ['col', column()], ['after', n[1]]]);
   }
 
 /*-------------------------------------------------------------------------------------------------------------------------------------
@@ -81,9 +81,12 @@ hl_large
    by 0 or more white spaces and ends with closing brace
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 end_tag "end tag"
-  = ld "/" ws* n:identifier ws* rd
-  { return n }
-
+  = ld "/" ws* n:identifier ws* rd after:after_tag
+  { return [n, after] }
+  
+after_tag
+  = w:ws? e:eol? { return [ w || '', e || '' ] }
+  
 /*-------------------------------------------------------------------------------------------------------------------------------------
    context is defined as matching a colon followed by an identifier
 ---------------------------------------------------------------------------------------------------------------------------------------*/
@@ -202,7 +205,7 @@ inline_part
 
 buffer "buffer"
   = e:eol w:ws*
-  { return ["buffer", e + w.join('')].concat([['line', line()], ['col', column()]]) }
+  { return ["buffer", e.concat(w.join(''))].concat([['line', line()], ['col', column()]]) }
   / b:(!tag !raw !comment !eol c:. {return c})+
   { return ["buffer", b.join('')].concat([['line', line()], ['col', column()]]) }
 

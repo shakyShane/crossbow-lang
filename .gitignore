@@ -6,3 +6,5 @@ tmp
 .idea
 example.js
 bower_components
+ast.json
+funcs.js

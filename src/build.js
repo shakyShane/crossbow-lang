@@ -10,7 +10,7 @@ var options = {
     output: 'source'
 };
 
-var parser = peg.buildParser(fs.readFileSync(path.join(root, 'src', 'dust.pegjs'), 'utf8'), options),
+var parser = peg.buildParser(fs.readFileSync(path.join(root, 'src', 'dust.yaml'), 'utf8'), options),
     umdWrapper = fs.readFileSync(path.join(root, 'src', 'umdParserWrapper.js'), 'utf8'),
     parserPlaceholder = '\'PARSER_CODE_HERE\'',
     buildMessagePlaceHolder = 'BUILD_MESSAGE_HERE',
