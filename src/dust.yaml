@@ -29,7 +29,9 @@ raw_section "raw_section"
     if (t[1].text === "hl") {
         e.push(["param", ["literal", "block"], ['body', ['buffer', b.join(''), [['line', line()], ['col', column()]]]]]);
         t.push(e);
-        return t.concat([['line', line()], ['col', column()]]);
+        t.concat([['line', line()], ['col', column()]]);
+        t.push(['after'].concat(n));
+        return t;
     }
   }
 
@@ -83,10 +85,10 @@ hl_large
 end_tag "end tag"
   = ld "/" ws* n:identifier ws* rd after:after_tag
   { return [n, after] }
-  
+
 after_tag
   = w:ws* e:eol? { return [ w.join('') || '', e || '' ] }
-  
+
 /*-------------------------------------------------------------------------------------------------------------------------------------
    context is defined as matching a colon followed by an identifier
 ---------------------------------------------------------------------------------------------------------------------------------------*/
